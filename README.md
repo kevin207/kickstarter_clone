@@ -1,5 +1,5 @@
-# Kickstart Clone
+# Kickstarter Clone
 
-### This is a personal project to improve my skill on web3 development. This project use the sepolia test network. I create and deploy the smart contracts using solidity, thirdweb, and hardhat. For the frontend, I'm using Next.JS to create the web interface
+This is a personal project to improve my skill on web3 development. This project use the sepolia test network. I create and deploy the smart contracts using solidity, thirdweb, and hardhat. For the frontend, I'm using Next.JS to create the web interface.
 
-Project Link: 
+Project Link: https://kickstarter-clone-pin.vercel.app
