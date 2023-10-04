@@ -1,7 +1,12 @@
 "use client";
 
 import { Sepolia } from "@thirdweb-dev/chains";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
+import {
+  ThirdwebProvider,
+  metamaskWallet,
+  coinbaseWallet,
+  walletConnect,
+} from "@thirdweb-dev/react";
 import { StateContextProvider } from "../context";
 import { Navbar, Sidebar } from "../components";
 import "../../styles/globals.css";
@@ -11,6 +16,11 @@ export default function RootLayout({ children }) {
     <ThirdwebProvider
       activeChain={Sepolia}
       clientId="2bee7b9ca14739ea9eb407748c783f43"
+      supportedWallets={[
+        metamaskWallet({ recommended: true }),
+        coinbaseWallet(),
+        walletConnect(),
+      ]}
     >
       <StateContextProvider>
         <html lang="en">

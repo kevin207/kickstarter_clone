@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useStateContext } from "../context";
-import { CustomButton } from "./";
 import { navlinks } from "../constants";
 
 const Navbar = () => {
@@ -20,15 +19,8 @@ const Navbar = () => {
 
       {/* CONNECT WALLET + ADD CAMPAIGN */}
       <div className="sm:flex hidden flex-row justify-end gap-4">
-        <CustomButton
-          btnType="button"
-          title={address ? "Create a campaign" : "Connect Wallet"}
-          styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
-          handleClick={() => {
-            if (address) router.push("create-campaign");
-            else connect();
-          }}
-        />
+        {/* NEW CONNECT BUTTON */}
+        {connect()}
 
         <Link href="/profile">
           <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
@@ -98,15 +90,8 @@ const Navbar = () => {
           </ul>
 
           <div className="flex mx-4">
-            <CustomButton
-              btnType="button"
-              title={address ? "Create a campaign" : "Connect"}
-              styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
-              handleClick={() => {
-                if (address) router.push("create-campaign");
-                else connect();
-              }}
-            />
+            {/* NEW CONNECT BUTTON */}
+            {connect()}
           </div>
         </div>
       </div>

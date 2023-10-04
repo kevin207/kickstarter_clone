@@ -3,9 +3,9 @@ import React, { useContext, createContext } from "react";
 import {
   useAddress,
   useContract,
-  useMetamask,
   useDisconnect,
   useContractWrite,
+  ConnectWallet,
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 
@@ -21,7 +21,18 @@ export const StateContextProvider = ({ children }) => {
   );
 
   const address = useAddress();
-  const connect = useMetamask();
+  // const connect = useMetamask();
+  const connect = () => {
+    return (
+      <ConnectWallet
+        className="wallet"
+        modalTitle={"Connect Wallet"}
+        switchToActiveChain={true}
+        modalSize={"compact"}
+        welcomeScreen={{}}
+      />
+    );
+  };
   const disconnect = useDisconnect();
 
   const publishCampaign = async (form) => {
