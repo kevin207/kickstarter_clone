@@ -43,13 +43,16 @@ const Navbar = () => {
 
       {/* SMALL SCREEN NAAVIGATION */}
       <div className="sm:hidden flex justify-between items-center relative">
-        <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+        <Link
+          href="/"
+          className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer"
+        >
           <img
             src={"/assets/logo.svg"}
             alt="user"
             className="w-[60%] h-[60%] object-contain"
           />
-        </div>
+        </Link>
 
         <img
           src={"/assets/menu.svg"}
