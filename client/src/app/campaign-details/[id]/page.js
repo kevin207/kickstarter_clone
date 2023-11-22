@@ -7,6 +7,7 @@ import {
   calculateBarPercentage,
   daysLeft,
   checkIfActive,
+  checkIfTargetMet,
   formatDate,
 } from "../../../utils";
 
@@ -21,6 +22,7 @@ const CampaignDetails = ({ params }) => {
 
   const remainingDays = daysLeft(campaign.deadline);
   const stillActive = checkIfActive(campaign.deadline);
+  const targetMet = checkIfTargetMet(campaign.amountCollected, campaign.target);
 
   const fetchDonators = async () => {
     const data = await getDonations(params.id);
@@ -65,11 +67,34 @@ const CampaignDetails = ({ params }) => {
         <>
           <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px]">
             <div className="flex-1 flex-col">
-              <img
-                src={campaign.image}
-                alt="campaign"
-                className="w-full h-[410px] object-cover rounded-xl"
-              />
+              <div className="relative">
+                {!targetMet && !stillActive && (
+                  <div className="absolute bg-[rgba(0,0,0,0.5)] rounded-xl h-[100%] w-[100%] flex justify-center items-center">
+                    <img
+                      src={"/assets/failed.png"}
+                      alt="fail"
+                      className=" object-cover rounded-xl select-none "
+                    />
+                  </div>
+                )}
+
+                {targetMet && (
+                  <div className="absolute bg-[rgba(0,0,0,0.5)] rounded-xl h-[100%] w-[100%] flex justify-center items-center">
+                    <img
+                      src={"/assets/success.png"}
+                      alt="fail"
+                      className=" object-cover rounded-xl select-none "
+                    />
+                  </div>
+                )}
+
+                <img
+                  src={campaign.image}
+                  alt="campaign"
+                  className="w-full h-[410px] object-cover rounded-xl"
+                />
+              </div>
+
               <div className="relative w-full h-[5px] bg-[#3a3a43] mt-2">
                 <div
                   className="absolute h-full bg-[#4acd8d]"
@@ -80,7 +105,7 @@ const CampaignDetails = ({ params }) => {
                     )}%`,
                     maxWidth: "100%",
                   }}
-                ></div>
+                />
               </div>
 
               <p className="mt-4 text-sm font-epilogue text-white">
@@ -181,6 +206,7 @@ const CampaignDetails = ({ params }) => {
                 </p>
                 <div className="mt-[30px]">
                   <input
+                    disabled={!stillActive}
                     type="number"
                     placeholder="ETH 0.1"
                     step="0.01"
