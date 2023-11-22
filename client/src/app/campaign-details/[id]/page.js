@@ -19,6 +19,7 @@ const CampaignDetails = ({ params }) => {
     useStateContext();
 
   const remainingDays = daysLeft(campaign.deadline);
+  const stillActive = checkIfActive(deadline);
 
   const fetchDonators = async () => {
     const data = await getDonations(params.id);
@@ -83,7 +84,7 @@ const CampaignDetails = ({ params }) => {
             </div>
 
             <div className="flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]">
-              {checkIfActive(campaign.deadline) ? (
+              {stillActive ? (
                 <CountBox title="Days Left" value={remainingDays} />
               ) : (
                 <CountBox title="Finished" value={"-"} />
@@ -194,15 +195,15 @@ const CampaignDetails = ({ params }) => {
                   </div>
 
                   <CustomButton
-                    disabled={!checkIfActive(campaign.deadline)}
+                    disabled={!stillActive}
                     btnType="button"
                     title={
-                      checkIfActive(campaign.deadline)
+                      stillActive
                         ? "Fund Campaign"
                         : "Campaign Finished"
                     }
                     styles={
-                      checkIfActive(campaign.deadline)
+                      stillActive
                         ? "w-full bg-[#8c6dfd]"
                         : "w-full bg-[gray]"
                     }
