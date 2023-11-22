@@ -19,7 +19,7 @@ const CampaignDetails = ({ params }) => {
     useStateContext();
 
   const remainingDays = daysLeft(campaign.deadline);
-  const stillActive = checkIfActive(deadline);
+  const stillActive = checkIfActive(campaign.deadline);
 
   const fetchDonators = async () => {
     const data = await getDonations(params.id);
