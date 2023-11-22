@@ -38,7 +38,6 @@ contract CrowdFunding {
         campaign.title = _title;
         campaign.issuer = _issuer;
         campaign.description = _description;
-        campaign.active = true;
         campaign.claimed = false;
         campaign.target = _target;
         campaign.deadline = _deadline;
@@ -51,12 +50,11 @@ contract CrowdFunding {
     }
 
     function donateToCampaign(uint256 _id) public payable {
-        checkAndUpdateStatus(_id);
-
         uint256 amount = msg.value;
         Campaign storage campaign = campaigns[_id];
 
-        if (campaign.active == true) {
+        // CAN ONLY DONATE WHEN DEADLINE IS NOT MET
+        if (block.timestamp < campaign.deadline) {
             campaign.donators.push(msg.sender);
             campaign.donations.push(amount);
 
@@ -84,13 +82,5 @@ contract CrowdFunding {
         }
 
         return allCampaigns;
-    }
-
-    // UTILS
-    function checkAndUpdateStatus(uint256 _id) internal {
-        Campaign storage campaign = campaigns[_id];
-        if (block.timestamp >= campaign.deadline && campaign.active) {
-            campaign.active = false;
-        }
     }
 }
