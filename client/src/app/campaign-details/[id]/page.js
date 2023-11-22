@@ -48,6 +48,7 @@ const CampaignDetails = ({ params }) => {
       setIsLoading(false);
     }
   };
+  const handleClaim = async () => {};
 
   useEffect(() => {
     if (contract) {
@@ -254,6 +255,16 @@ const CampaignDetails = ({ params }) => {
                     }
                     handleClick={handleDonate}
                   />
+
+                  {campaign.owner == address && stillActive == false && (
+                    <CustomButton
+                      // disabled={!stillActive}
+                      btnType="button"
+                      title="Claim Funds"
+                      styles="mt-4 w-full bg-green-400"
+                      handleClick={handleClaim}
+                    />
+                  )}
                 </div>
               </div>
             </div>

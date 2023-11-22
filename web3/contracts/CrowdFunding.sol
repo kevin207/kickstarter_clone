@@ -7,6 +7,7 @@ contract CrowdFunding {
         string title;
         string issuer;
         string description;
+        bool claimed;
         bool active;
         uint256 target;
         uint256 deadline;
@@ -39,6 +40,7 @@ contract CrowdFunding {
         campaign.issuer = _issuer;
         campaign.description = _description;
         campaign.active = true;
+        campaign.claimed = false;
         campaign.target = _target;
         campaign.deadline = _deadline;
         campaign.amountCollected = 0;
