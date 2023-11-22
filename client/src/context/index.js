@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, createContext } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 import {
   useAddress,
   useContract,
@@ -12,6 +12,14 @@ import { ethers } from "ethers";
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
+  const [campaignType, setCampaignType] = useState("Active");
+  const [activeCampaigns, setActiveCampaigns] = useState([]);
+  const [passedCampaigns, setPassedCampaigns] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const address = useAddress();
+  const disconnect = useDisconnect();
+
   const { contract } = useContract(
     "0x1318bf07D4a0390df2Fb2561af6d2ec40E432aAb"
   );
@@ -20,7 +28,6 @@ export const StateContextProvider = ({ children }) => {
     "createCampaign"
   );
 
-  const address = useAddress();
   // const connect = useMetamask();
   const connect = () => {
     return (
@@ -33,7 +40,6 @@ export const StateContextProvider = ({ children }) => {
       />
     );
   };
-  const disconnect = useDisconnect();
 
   const publishCampaign = async (form) => {
     try {
@@ -100,6 +106,8 @@ export const StateContextProvider = ({ children }) => {
       value: ethers.utils.parseEther(amount),
     });
 
+    console.log(data)
+
     return data;
   };
 
@@ -119,20 +127,46 @@ export const StateContextProvider = ({ children }) => {
     return parsedDonations;
   };
 
+  const states = {
+    address,
+    activeCampaigns,
+    setActiveCampaigns,
+    passedCampaigns,
+    setPassedCampaigns,
+    campaignType,
+    setCampaignType,
+    isLoading,
+    setIsLoading,
+    contract,
+    connect,
+    disconnect,
+    createCampaign: publishCampaign,
+    getCampaigns,
+    getCampaign,
+    getUserCampaigns,
+    donate,
+    getDonations,
+  }
+
+  // Get all campaigns
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      setIsLoading(true);
+      const data = await getCampaigns();
+      const activeCampaigns = data.filter((campaign) => campaign.deadline > Date.now());
+      const passedCampaigns = data.filter((campaign) => campaign.deadline < Date.now());
+
+      setActiveCampaigns(activeCampaigns);
+      setPassedCampaigns(passedCampaigns);
+      setIsLoading(false);
+    };
+
+    if (contract) fetchCampaigns();
+  }, [address, contract]);
+
   return (
     <StateContext.Provider
-      value={{
-        address,
-        contract,
-        connect,
-        disconnect,
-        createCampaign: publishCampaign,
-        getCampaigns,
-        getUserCampaigns,
-        donate,
-        getDonations,
-        getCampaign,
-      }}
+      value={states}
     >
       {children}
     </StateContext.Provider>
