@@ -10,7 +10,10 @@ export const daysLeft = (deadline) => {
 };
 
 export const calculateBarPercentage = (goal, raisedAmount) => {
+  console.log('goal', goal)
+  console.log('raisedAmount', raisedAmount)
   const percentage = Math.round((raisedAmount * 100) / goal);
+  console.log(percentage)
 
   return percentage;
 };

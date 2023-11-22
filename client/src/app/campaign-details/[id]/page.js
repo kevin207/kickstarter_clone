@@ -96,10 +96,17 @@ const CampaignDetails = ({ params }) => {
               )}
 
               <CountBox
-                title={`Raised of ${campaign.target} `}
+                title={calculateBarPercentage(
+                  campaign.target,
+                  campaign.amountCollected
+                ) < 100 ? `Raised of ${campaign.target}` : `Pledged of ${campaign.target}`}
                 value={campaign.amountCollected}
+                pledged={calculateBarPercentage(campaign.target, campaign.amountCollected) < 100 ? false : true}
               />
-              <CountBox title="Total Backers" value={donators.length} />
+              <CountBox
+                title="Total Backers"
+                value={donators.length}
+              />
             </div>
           </div>
 
