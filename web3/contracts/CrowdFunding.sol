@@ -8,7 +8,6 @@ contract CrowdFunding {
         string issuer;
         string description;
         bool claimed;
-        bool active;
         uint256 target;
         uint256 deadline;
         uint256 amountCollected;
