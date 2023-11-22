@@ -7,6 +7,7 @@ import {
   calculateBarPercentage,
   daysLeft,
   checkIfActive,
+  formatDate,
 } from "../../../utils";
 
 const CampaignDetails = ({ params }) => {
@@ -32,13 +33,6 @@ const CampaignDetails = ({ params }) => {
     setIsFetching(false);
   };
 
-  useEffect(() => {
-    if (contract) {
-      getCampaignDetail();
-      fetchDonators();
-    }
-  }, [contract, address]);
-
   const handleDonate = async () => {
     setIsLoading(true);
 
@@ -47,6 +41,13 @@ const CampaignDetails = ({ params }) => {
     router.push("/");
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (contract) {
+      getCampaignDetail();
+      fetchDonators();
+    }
+  }, [contract, address]);
 
   return (
     <div>
@@ -81,6 +82,10 @@ const CampaignDetails = ({ params }) => {
                   }}
                 ></div>
               </div>
+
+              <p className="mt-4 text-sm font-epilogue text-white">
+                Until {formatDate(campaign.deadline)}
+              </p>
             </div>
 
             <div className="flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]">
@@ -98,7 +103,7 @@ const CampaignDetails = ({ params }) => {
             </div>
           </div>
 
-          <div className="mt-[60px] flex lg:flex-row flex-col gap-5 mb-8">
+          <div className="mt-[40px] flex lg:flex-row flex-col gap-5 mb-8">
             <div className="flex-[2] flex flex-col gap-[40px]">
               <div>
                 <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">
@@ -197,15 +202,9 @@ const CampaignDetails = ({ params }) => {
                   <CustomButton
                     disabled={!stillActive}
                     btnType="button"
-                    title={
-                      stillActive
-                        ? "Fund Campaign"
-                        : "Campaign Finished"
-                    }
+                    title={stillActive ? "Fund Campaign" : "Campaign Finished"}
                     styles={
-                      stillActive
-                        ? "w-full bg-[#8c6dfd]"
-                        : "w-full bg-[gray]"
+                      stillActive ? "w-full bg-[#8c6dfd]" : "w-full bg-[gray]"
                     }
                     handleClick={handleDonate}
                   />

@@ -43,3 +43,30 @@ export const checkIfTargetMet = (collected, target) => {
     return false;
   }
 };
+
+export const formatDate = (timestamp) => {
+  const dateObj = new Date(timestamp);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const day = dateObj.getDate();
+  const monthIndex = dateObj.getMonth();
+  const year = dateObj.getFullYear();
+  const dayOfWeek = dateObj.toLocaleDateString("en-US", { weekday: "long" });
+
+  const formattedDate = `${dayOfWeek}, ${day} ${monthNames[monthIndex]} ${year}`;
+
+  return formattedDate;
+};
