@@ -98,7 +98,7 @@ const CampaignDetails = ({ params }) => {
             </div>
           </div>
 
-          <div className="mt-[60px] flex lg:flex-row flex-col gap-5">
+          <div className="mt-[60px] flex lg:flex-row flex-col gap-5 mb-8">
             <div className="flex-[2] flex flex-col gap-[40px]">
               <div>
                 <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">
