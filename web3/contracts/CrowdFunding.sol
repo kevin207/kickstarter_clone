@@ -30,7 +30,7 @@ contract CrowdFunding {
         Campaign storage campaign = campaigns[numberOfCampaigns];
 
         require(
-            campaign.deadline < block.timestamp,
+            campaign.deadline > block.timestamp,
             "The deadline should be a date in the future."
         );
 
@@ -83,4 +83,38 @@ contract CrowdFunding {
 
         return allCampaigns;
     }
+
+    function finalizeCampaign(uint256 _id) public {
+        Campaign storage campaign = campaigns[_id];
+
+        // Check if the message sender is the owner of the campaign
+        require(
+            msg.sender == campaign.owner,
+            "Only the campaign owner can finalize the campaign."
+        );
+
+        // Check if the deadline has passed
+        require(
+            block.timestamp >= campaign.deadline,
+            "Campaign is still ongoing."
+        );
+
+        if (campaign.amountCollected >= campaign.target) {
+            // If target is met or exceeded, transfer funds to campaign owner
+            (bool sent, ) = payable(campaign.owner).call{
+                value: campaign.amountCollected
+            }("");
+            require(sent, "Failed to send Ether");
+            campaign.claimed = true; // Mark as claimed
+        } else {
+            // If target is not met, refund donors
+            for (uint i = 0; i < campaign.donators.length; i++) {
+                (bool sent, ) = payable(campaign.donators[i]).call{
+                    value: campaign.donations[i]
+                }("");
+                require(sent, "Failed to refund Ether");
+            }
+        }
+    }
+    
 }

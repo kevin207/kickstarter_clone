@@ -88,8 +88,8 @@ const CampaignDetails = ({ params }) => {
                   <div className="absolute bg-[rgba(0,0,0,0.5)] rounded-xl h-[100%] w-[100%] flex justify-center items-center">
                     <img
                       src={"/assets/success.png"}
-                      alt="fail"
-                      className=" object-cover rounded-xl select-none "
+                      alt="success"
+                      className=" object-cover rounded-xl select-none h-60"
                     />
                   </div>
                 )}
@@ -115,7 +115,8 @@ const CampaignDetails = ({ params }) => {
               </div>
 
               <p className="mt-4 text-sm font-epilogue text-white">
-                Until {formatDate(campaign.deadline)}
+                {stillActive ? "Until" : "Closed at"}{" "}
+                {formatDate(campaign.deadline)}
               </p>
             </div>
 
