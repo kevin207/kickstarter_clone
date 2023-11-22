@@ -2,6 +2,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useStateContext } from "../../../context";
+import { useRouter } from "next/navigation";
 import { CountBox, CustomButton, Loader } from "../../../components";
 import {
   calculateBarPercentage,
@@ -10,10 +11,11 @@ import {
 } from "../../../utils";
 
 const CampaignDetails = ({ params }) => {
+  const router = useRouter();
   const [campaign, setCampaign] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState("0.01");
   const [donators, setDonators] = useState([]);
   const { donate, getDonations, contract, address, getCampaign } =
     useStateContext();
@@ -39,12 +41,15 @@ const CampaignDetails = ({ params }) => {
   }, [contract, address]);
 
   const handleDonate = async () => {
-    setIsLoading(true);
-
-    await donate(campaign.pId, amount);
-
-    router.push("/");
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      await donate(campaign.pId, amount);
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -177,6 +182,7 @@ const CampaignDetails = ({ params }) => {
                   <input
                     type="number"
                     placeholder="ETH 0.1"
+                    disabled={!checkIfActive(campaign.deadline)}
                     step="0.01"
                     className="w-full py-[10px] sm:px-[20px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[18px] leading-[30px] placeholder:text-[#4b5264] rounded-[10px]"
                     value={amount}
