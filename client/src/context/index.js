@@ -39,7 +39,7 @@ export const StateContextProvider = ({ children }) => {
     try {
       const data = await createCampaign({
         args: [
-          address, // owner
+          address, // owner address
           form.title, // title
           form.issuer, // issuer
           form.description, // description
@@ -73,6 +73,16 @@ export const StateContextProvider = ({ children }) => {
     }));
 
     return parsedCampaings;
+  };
+
+  const getCampaign = async (pId) => {
+    const allCampaigns = await getCampaigns();
+
+    const filteredCampaigns = allCampaigns.filter(
+      (campaign) => campaign.pId === parseInt(pId)
+    );
+
+    return filteredCampaigns[0];
   };
 
   const getUserCampaigns = async () => {
@@ -121,6 +131,7 @@ export const StateContextProvider = ({ children }) => {
         getUserCampaigns,
         donate,
         getDonations,
+        getCampaign,
       }}
     >
       {children}

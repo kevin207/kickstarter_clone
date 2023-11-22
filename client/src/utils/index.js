@@ -24,3 +24,14 @@ export const checkIfImage = (url, callback) => {
   img.onload = () => callback(true);
   img.onerror = () => callback(false);
 };
+
+export const checkIfActive = (deadline) => {
+  const current = new Date();
+  deadline = new Date(deadline);
+
+  if (current >= deadline) {
+    return false;
+  } else {
+    return true;
+  }
+};

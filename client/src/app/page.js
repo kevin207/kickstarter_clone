@@ -12,7 +12,6 @@ const Home = () => {
   const { address, contract, getCampaigns } = useStateContext();
 
   const fetchCampaigns = async () => {
-    setIsLoading(true);
     const data = await getCampaigns();
 
     const activeCampaigns = data.filter((campaign) => campaign.deadline > Date.now());
