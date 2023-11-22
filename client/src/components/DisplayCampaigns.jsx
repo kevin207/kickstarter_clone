@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import FundCard from "./FundCard";
@@ -14,8 +13,8 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
 
   return (
     <div>
-      <h1 className="font-epilogue font-semibold text-[18px] text-white text-left">
-        {/* {title} ({campaigns.length}) */}
+      <h1 className="mt-6 font-epilogue font-semibold text-[18px] text-white text-left">
+        {title} ({campaigns.length})
       </h1>
 
       <div className="flex flex-wrap mt-[20px] gap-[26px]">

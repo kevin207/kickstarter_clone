@@ -12,7 +12,7 @@ import { ethers } from "ethers";
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const [campaignType, setCampaignType] = useState("active");
+  const [campaignType, setCampaignType] = useState("Active");
   const [activeCampaigns, setActiveCampaigns] = useState([]);
   const [passedCampaigns, setPassedCampaigns] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

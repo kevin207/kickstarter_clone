@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
       {/* SEARCH BAR */}
-      <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 h-[52px] text-3xl text-green-600 font-bold">
+      <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 h-[52px] text-3xl text-green-400 font-bold">
         KickStarter Clone
       </div>
 

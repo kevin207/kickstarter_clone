@@ -1,18 +1,19 @@
 import React from "react";
-import { daysLeft, checkIfActive } from "../utils";
+import { daysLeft, checkIfActive, checkIfTargetMet } from "../utils";
 
 const FundCard = ({
   owner,
   title,
   description,
   target,
-  active,
   deadline,
   amountCollected,
   image,
   handleClick,
 }) => {
   const remainingDays = daysLeft(deadline);
+  const targetMet = checkIfTargetMet(amountCollected, target);
+  const stillActive = checkIfActive(deadline);
 
   return (
     <div
@@ -56,7 +57,7 @@ const FundCard = ({
             </p>
           </div>
           <div className="flex flex-col">
-            {checkIfActive(deadline) ? (
+            {stillActive ? (
               <>
                 <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
                   {remainingDays}
@@ -66,14 +67,23 @@ const FundCard = ({
                 </p>
               </>
             ) : (
-              <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
-                Finished
-              </h4>
+              <>
+                <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
+                  Finished
+                </h4>
+                <small
+                  className={`mt-[3px] font-epilogue font-normal text-[12px] leading-[18px]  sm:max-w-[120px] truncate ${
+                    targetMet ? "text-green-500" : "text-red-500"
+                  } `}
+                >
+                  {targetMet ? "Funded" : "Not Funded"}
+                </small>
+              </>
             )}
           </div>
         </div>
 
-        <div className="flex items-center mt-[20px] gap-[12px]">
+        <div className="flex items-center mt-[15px] gap-[12px]">
           <div className="w-[30px] h-[30px] rounded-full flex justify-center items-center bg-[#13131a]">
             <img
               src="/assets/thirdweb.png"

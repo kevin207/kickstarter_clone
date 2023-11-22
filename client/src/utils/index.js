@@ -35,3 +35,11 @@ export const checkIfActive = (deadline) => {
     return true;
   }
 };
+
+export const checkIfTargetMet = (collected, target) => {
+  if (collected >= target) {
+    return true;
+  } else {
+    return false;
+  }
+};
