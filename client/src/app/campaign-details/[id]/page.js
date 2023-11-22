@@ -3,7 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useStateContext } from "../../../context";
 import { CountBox, CustomButton, Loader } from "../../../components";
-import { calculateBarPercentage, daysLeft } from "../../../utils";
+import {
+  calculateBarPercentage,
+  daysLeft,
+  checkIfActive,
+} from "../../../utils";
 
 const CampaignDetails = ({ params }) => {
   const [campaign, setCampaign] = useState({});
@@ -79,7 +83,12 @@ const CampaignDetails = ({ params }) => {
             </div>
 
             <div className="flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]">
-              <CountBox title="Days Left" value={remainingDays} />
+              {checkIfActive(campaign.deadline) ? (
+                <CountBox title="Days Left" value={remainingDays} />
+              ) : (
+                <CountBox title="Finished" value={"-"} />
+              )}
+
               <CountBox
                 title={`Raised of ${campaign.target} `}
                 value={campaign.amountCollected}
@@ -185,9 +194,18 @@ const CampaignDetails = ({ params }) => {
                   </div>
 
                   <CustomButton
+                    disabled={!checkIfActive(campaign.deadline)}
                     btnType="button"
-                    title="Fund Campaign"
-                    styles="w-full bg-[#8c6dfd]"
+                    title={
+                      checkIfActive(campaign.deadline)
+                        ? "Fund Campaign"
+                        : "Campaign Finished"
+                    }
+                    styles={
+                      checkIfActive(campaign.deadline)
+                        ? "w-full bg-[#8c6dfd]"
+                        : "w-full bg-[gray]"
+                    }
                     handleClick={handleDonate}
                   />
                 </div>

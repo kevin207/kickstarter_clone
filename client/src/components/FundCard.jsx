@@ -1,5 +1,5 @@
 import React from "react";
-import { daysLeft } from "../utils";
+import { daysLeft, checkIfActive } from "../utils";
 
 const FundCard = ({
   owner,
@@ -56,7 +56,7 @@ const FundCard = ({
             </p>
           </div>
           <div className="flex flex-col">
-            {!active ? (
+            {checkIfActive(deadline) ? (
               <>
                 <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
                   {remainingDays}
