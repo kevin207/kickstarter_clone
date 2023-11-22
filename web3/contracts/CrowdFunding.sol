@@ -99,6 +99,9 @@ contract CrowdFunding {
             "Campaign is still ongoing."
         );
 
+        // Check if the campaign already claimed
+        require(campaign.claimed == false, "Campaign already claimed");
+
         if (campaign.amountCollected >= campaign.target) {
             // If target is met or exceeded, transfer funds to campaign owner
             (bool sent, ) = payable(campaign.owner).call{
@@ -116,5 +119,4 @@ contract CrowdFunding {
             }
         }
     }
-    
 }
