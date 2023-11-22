@@ -26,7 +26,7 @@ const FundCard = ({
       />
 
       <div className="flex flex-col p-4">
-        <div className="flex flex-row items-center mb-[18px]">
+        <div className="flex flex-row items-center mb-[12px]">
           <img
             src="/assets/type.svg"
             alt="tag"
@@ -41,7 +41,7 @@ const FundCard = ({
           <h3 className="font-epilogue font-semibold text-[16px] text-white text-left leading-[26px] truncate">
             {title}
           </h3>
-          <p className="mt-[5px] font-epilogue font-normal text-[#808191] text-left leading-[18px] truncate">
+          <p className="mt-[3px] font-epilogue font-normal text-[#808191] text-left leading-[18px] truncate text-sm">
             {description}
           </p>
         </div>
