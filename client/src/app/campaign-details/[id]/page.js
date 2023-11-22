@@ -126,17 +126,25 @@ const CampaignDetails = ({ params }) => {
               )}
 
               <CountBox
-                title={calculateBarPercentage(
-                  campaign.target,
-                  campaign.amountCollected
-                ) < 100 ? `Raised of ${campaign.target}` : `Pledged of ${campaign.target}`}
+                title={
+                  calculateBarPercentage(
+                    campaign.target,
+                    campaign.amountCollected
+                  ) < 100
+                    ? `Raised of ${campaign.target}`
+                    : `Pledged of ${campaign.target}`
+                }
                 value={campaign.amountCollected}
-                pledged={calculateBarPercentage(campaign.target, campaign.amountCollected) < 100 ? false : true}
+                pledged={
+                  calculateBarPercentage(
+                    campaign.target,
+                    campaign.amountCollected
+                  ) < 100
+                    ? false
+                    : true
+                }
               />
-              <CountBox
-                title="Total Backers"
-                value={donators.length}
-              />
+              <CountBox title="Total Backers" value={donators.length} />
             </div>
           </div>
 
@@ -221,7 +229,6 @@ const CampaignDetails = ({ params }) => {
                     disabled={!stillActive}
                     type="number"
                     placeholder="ETH 0.1"
-                    disabled={!checkIfActive(campaign.deadline)}
                     step="0.01"
                     className="w-full py-[10px] sm:px-[20px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[18px] leading-[30px] placeholder:text-[#4b5264] rounded-[10px]"
                     value={amount}
