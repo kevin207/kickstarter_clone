@@ -7,6 +7,7 @@ contract CrowdFunding {
         string title;
         string issuer;
         string description;
+        bool active;
         uint256 target;
         uint256 deadline;
         uint256 amountCollected;
@@ -14,9 +15,7 @@ contract CrowdFunding {
         address[] donators;
         uint256[] donations;
     }
-
     mapping(uint256 => Campaign) public campaigns;
-
     uint256 public numberOfCampaigns = 0;
 
     function createCampaign(
@@ -39,6 +38,7 @@ contract CrowdFunding {
         campaign.title = _title;
         campaign.issuer = _issuer;
         campaign.description = _description;
+        campaign.active = true;
         campaign.target = _target;
         campaign.deadline = _deadline;
         campaign.amountCollected = 0;
@@ -50,17 +50,20 @@ contract CrowdFunding {
     }
 
     function donateToCampaign(uint256 _id) public payable {
-        uint256 amount = msg.value;
+        checkAndUpdateStatus(_id);
 
+        uint256 amount = msg.value;
         Campaign storage campaign = campaigns[_id];
 
-        campaign.donators.push(msg.sender);
-        campaign.donations.push(amount);
+        if (campaign.active == true) {
+            campaign.donators.push(msg.sender);
+            campaign.donations.push(amount);
 
-        (bool sent, ) = payable(campaign.owner).call{value: amount}("");
+            (bool sent, ) = payable(campaign.owner).call{value: amount}("");
 
-        if (sent) {
-            campaign.amountCollected = campaign.amountCollected + amount;
+            if (sent) {
+                campaign.amountCollected = campaign.amountCollected + amount;
+            }
         }
     }
 
@@ -82,21 +85,11 @@ contract CrowdFunding {
         return allCampaigns;
     }
 
-    // function updateCampaignStatus(uint256 pId, string memory status) public {
-    //     Campaign storage campaign = campaigns[pId];
-    //     campaign.status = status;
-    // }
-
-    // function checkDeadline(uint256 pId) public view returns (bool) {
-    //     Campaign storage campaign = campaigns[pId];
-    //     return block.timestamp > campaign.deadline;
-    // }
-
-    // function updateDeadlines() public {
-    //     for (uint256 i = 0; i < numberOfCampaigns; i++) {
-    //         if (checkDeadline(i)) {
-    //             updateCampaignStatus(i, "Finished");
-    //         }
-    //     }
-    // }
+    // UTILS
+    function checkAndUpdateStatus(uint256 _id) internal {
+        Campaign storage campaign = campaigns[_id];
+        if (block.timestamp >= campaign.deadline && campaign.active) {
+            campaign.active = false;
+        }
+    }
 }

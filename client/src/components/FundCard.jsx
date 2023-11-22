@@ -6,6 +6,7 @@ const FundCard = ({
   title,
   description,
   target,
+  active,
   deadline,
   amountCollected,
   image,
@@ -55,12 +56,20 @@ const FundCard = ({
             </p>
           </div>
           <div className="flex flex-col">
-            <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
-              {remainingDays}
-            </h4>
-            <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate">
-              Days Left
-            </p>
+            {!active ? (
+              <>
+                <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
+                  {remainingDays}
+                </h4>
+                <p className="mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate">
+                  Days Left
+                </p>
+              </>
+            ) : (
+              <h4 className="font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]">
+                Finished
+              </h4>
+            )}
           </div>
         </div>
 
