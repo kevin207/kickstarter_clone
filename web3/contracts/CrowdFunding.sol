@@ -3,8 +3,9 @@ pragma solidity ^0.8.9;
 
 contract CrowdFunding {
     address public bankAddress;
+
     constructor() {
-        bankAddress = 0x13C1C56B23FEeab2f390A4530bD0ed2118499290;
+        bankAddress = 0x20047D546F34DC8A58F8DA13fa22143B4fC5404a;
     }
 
     struct Campaign {
@@ -89,7 +90,7 @@ contract CrowdFunding {
         return allCampaigns;
     }
 
-    function finalizeCampaign(uint256 _id) public {
+    function finalizeCampaign(uint256 _id) public payable {
         Campaign storage campaign = campaigns[_id];
 
         // Check if the message sender is the owner of the campaign
@@ -99,10 +100,10 @@ contract CrowdFunding {
         );
 
         // Check if the deadline has passed
-        require(
-            block.timestamp >= campaign.deadline,
-            "Campaign is still ongoing."
-        );
+        // require(
+        //     block.timestamp >= campaign.deadline,
+        //     "Campaign is still ongoing."
+        // );
 
         // Check if the campaign already claimed
         require(campaign.claimed == false, "Campaign already claimed");

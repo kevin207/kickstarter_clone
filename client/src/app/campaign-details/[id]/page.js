@@ -19,7 +19,7 @@ const CampaignDetails = ({ params }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [amount, setAmount] = useState("0.01");
   const [donators, setDonators] = useState([]);
-  const { donate, getDonations, contract, address, getCampaign } =
+  const { donate, getDonations, contract, address, getCampaign, claimFunds } =
     useStateContext();
 
   const remainingDays = daysLeft(campaign.deadline);
@@ -48,7 +48,17 @@ const CampaignDetails = ({ params }) => {
       setIsLoading(false);
     }
   };
-  const handleClaim = async () => {};
+  const handleClaim = async () => {
+    try {
+      setIsLoading(true);
+      await claimFunds(campaign.pId);
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (contract) {
@@ -257,15 +267,15 @@ const CampaignDetails = ({ params }) => {
                     handleClick={handleDonate}
                   />
 
-                  {campaign.owner == address && stillActive == false && (
-                    <CustomButton
-                      // disabled={!stillActive}
-                      btnType="button"
-                      title="Claim Funds"
-                      styles="mt-4 w-full bg-green-400"
-                      handleClick={handleClaim}
-                    />
-                  )}
+                  <CustomButton
+                    // disabled={!stillActive}
+                    btnType="button"
+                    title="Claim Funds"
+                    styles="mt-4 w-full bg-green-400"
+                    handleClick={handleClaim}
+                  />
+                  {/* {campaign.owner == address && stillActive == false && (
+                  )} */}
                 </div>
               </div>
             </div>

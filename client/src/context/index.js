@@ -21,7 +21,7 @@ export const StateContextProvider = ({ children }) => {
   const disconnect = useDisconnect();
 
   const { contract } = useContract(
-    "0x1318bf07D4a0390df2Fb2561af6d2ec40E432aAb"
+    "0x6b24fBEe14552bC128072D22A947371e686B55d4"
   );
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
@@ -127,6 +127,12 @@ export const StateContextProvider = ({ children }) => {
     return parsedDonations;
   };
 
+  const claimFunds = async (pId) => {
+    const data = await contract.call("finalizeCampaign", [pId]);
+
+    return data;
+  };
+
   const states = {
     address,
     activeCampaigns,
@@ -146,6 +152,7 @@ export const StateContextProvider = ({ children }) => {
     getUserCampaigns,
     donate,
     getDonations,
+    claimFunds,
   }
 
   // Get all campaigns

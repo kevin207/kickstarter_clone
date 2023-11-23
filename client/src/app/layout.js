@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <ThirdwebProvider
       activeChain={Sepolia}
-      clientId="2bee7b9ca14739ea9eb407748c783f43"
+      clientId="b648be5f88b4c0cafb37ca096539abe4"
       supportedWallets={[
         metamaskWallet({ recommended: true }),
         coinbaseWallet(),
