@@ -53,8 +53,8 @@ const CampaignDetails = ({ params }) => {
     try {
       setIsLoading(true);
       await claimFunds(campaign.pId);
-      router.push("/");
       await refetchCampaigns();
+      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {
