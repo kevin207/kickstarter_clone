@@ -19,7 +19,7 @@ const CampaignDetails = ({ params }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [amount, setAmount] = useState("0.01");
   const [donators, setDonators] = useState([]);
-  const { donate, getDonations, contract, address, getCampaign, claimFunds } =
+  const { donate, getDonations, contract, address, getCampaign, claimFunds, refetchCampaigns } =
     useStateContext();
 
   const remainingDays = daysLeft(campaign.deadline);
@@ -41,6 +41,7 @@ const CampaignDetails = ({ params }) => {
     try {
       setIsLoading(true);
       await donate(campaign.pId, amount);
+      await refetchCampaigns();
       router.push("/");
     } catch (error) {
       console.log(error);
@@ -53,6 +54,7 @@ const CampaignDetails = ({ params }) => {
       setIsLoading(true);
       await claimFunds(campaign.pId);
       router.push("/");
+      await refetchCampaigns();
     } catch (error) {
       console.log(error);
     } finally {
@@ -177,7 +179,7 @@ const CampaignDetails = ({ params }) => {
                   </div>
                   <div>
                     <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">
-                      {campaign.owner || "Test"}
+                      {campaign.owner}
                     </h4>
                     <p className="mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]">
                       {campaign.issuer}
@@ -267,11 +269,11 @@ const CampaignDetails = ({ params }) => {
                     handleClick={handleDonate}
                   />
 
-                  {campaign.owner == address && (
+                  {campaign.owner == address && stillActive == false && (
                     <CustomButton
-                      // disabled={!stillActive}
+                      disabled={!stillActive}
                       btnType="button"
-                      title="Claim Funds"
+                      title="Finish Campaign"
                       styles="mt-4 w-full bg-green-400"
                       handleClick={handleClaim}
                     />
