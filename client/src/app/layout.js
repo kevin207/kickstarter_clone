@@ -14,8 +14,8 @@ import "../../styles/globals.css";
 export default function RootLayout({ children }) {
   return (
     <ThirdwebProvider
-      activeChain={LineaTestnet}
-      clientId="af5b2a176c44e494bda6f8d31040d072"
+      activeChain={Sepolia}
+      clientId="f6c9522287a91e722f2fcf9845bf043f"
       supportedWallets={[
         metamaskWallet({ recommended: true }),
         coinbaseWallet(),
