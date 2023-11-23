@@ -2,13 +2,17 @@
 module.exports = {
   solidity: {
     version: "0.8.9",
-    defaultNetwork: "sepolia",
+    defaultNetwork: "linea",
     networks: {
       hardhat: {},
       sepolia: {
-        url: "https://eth-sepolia.g.alchemy.com/v2/demo",
+        url: "https://rpc.ankr.com/eth_sepolia",
         accounts: [`0x${process.env.PRIVATE_KEY}`],
       },
+      linea: {
+        url: "https://rpc.goerli.linea.build",
+        accounts: [`0x${process.env.PRIVATE_KEY}`],
+      }
     },
     settings: {
       optimizer: {

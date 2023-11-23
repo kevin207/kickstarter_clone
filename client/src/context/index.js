@@ -21,7 +21,7 @@ export const StateContextProvider = ({ children }) => {
   const disconnect = useDisconnect();
 
   const { contract } = useContract(
-    "0x6b24fBEe14552bC128072D22A947371e686B55d4"
+    "0x6273E8a668703a324B2a6515DA7CE20832D16523"
   );
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
@@ -106,8 +106,6 @@ export const StateContextProvider = ({ children }) => {
       value: ethers.utils.parseEther(amount),
     });
 
-    console.log(data)
-
     return data;
   };
 
@@ -128,9 +126,21 @@ export const StateContextProvider = ({ children }) => {
   };
 
   const claimFunds = async (pId) => {
-    const data = await contract.call("finalizeCampaign", [pId]);
+    console.log(ethers.utils.parseEther("0.0005"))
+    const data = await contract.call("finalizeCampaign", [pId], {
+      value: ethers.utils.parseEther("0.0005"),
+    });
 
     return data;
+  };
+
+  const refetchCampaigns = async () => {
+    const data = await getCampaigns();
+    const activeCampaigns = data.filter((campaign) => campaign.deadline > Date.now());
+    const passedCampaigns = data.filter((campaign) => campaign.deadline < Date.now());
+
+    setActiveCampaigns(activeCampaigns);
+    setPassedCampaigns(passedCampaigns);
   };
 
   const states = {
@@ -153,6 +163,7 @@ export const StateContextProvider = ({ children }) => {
     donate,
     getDonations,
     claimFunds,
+    refetchCampaigns,
   }
 
   // Get all campaigns

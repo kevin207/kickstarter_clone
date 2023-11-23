@@ -111,17 +111,18 @@ contract CrowdFunding {
         if (campaign.amountCollected >= campaign.target) {
             // If target is met or exceeded, transfer funds to campaign owner
             (bool sent, ) = payable(campaign.owner).call{
-                value: campaign.amountCollected
+                value: msg.value,
+                gas: 30000
             }("");
             require(sent, "Failed to send Ether");
             campaign.claimed = true; // Mark as claimed
         } else {
             // If target is not met, refund donors
             for (uint i = 0; i < campaign.donators.length; i++) {
-                (bool sent, ) = payable(campaign.donators[i]).call{
+                (bool refunded, ) = payable(campaign.donators[i]).call{
                     value: campaign.donations[i]
                 }("");
-                require(sent, "Failed to refund Ether");
+                require(refunded, "Failed to refund Ether");
             }
         }
     }

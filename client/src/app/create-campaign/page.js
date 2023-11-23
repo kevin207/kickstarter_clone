@@ -10,7 +10,7 @@ import { checkIfImage } from "../../utils";
 const CreateCampaign = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { createCampaign } = useStateContext();
+  const { createCampaign, refetchCampaigns } = useStateContext();
   const [form, setForm] = useState({
     title: "",
     issuer: "",
@@ -35,6 +35,7 @@ const CreateCampaign = () => {
           ...form,
           target: ethers.utils.parseUnits(form.target, 18),
         });
+        await refetchCampaigns();
         setIsLoading(false);
         router.push("/");
       } else {

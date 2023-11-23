@@ -1,6 +1,6 @@
 "use client";
 
-import { Sepolia } from "@thirdweb-dev/chains";
+import { Sepolia, LineaTestnet } from "@thirdweb-dev/chains";
 import {
   ThirdwebProvider,
   metamaskWallet,
@@ -14,8 +14,8 @@ import "../../styles/globals.css";
 export default function RootLayout({ children }) {
   return (
     <ThirdwebProvider
-      activeChain={Sepolia}
-      clientId="b648be5f88b4c0cafb37ca096539abe4"
+      activeChain={LineaTestnet}
+      clientId="af5b2a176c44e494bda6f8d31040d072"
       supportedWallets={[
         metamaskWallet({ recommended: true }),
         coinbaseWallet(),

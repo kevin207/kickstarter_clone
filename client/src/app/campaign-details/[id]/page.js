@@ -267,15 +267,15 @@ const CampaignDetails = ({ params }) => {
                     handleClick={handleDonate}
                   />
 
-                  <CustomButton
-                    // disabled={!stillActive}
-                    btnType="button"
-                    title="Claim Funds"
-                    styles="mt-4 w-full bg-green-400"
-                    handleClick={handleClaim}
-                  />
-                  {/* {campaign.owner == address && stillActive == false && (
-                  )} */}
+                  {campaign.owner == address && (
+                    <CustomButton
+                      // disabled={!stillActive}
+                      btnType="button"
+                      title="Claim Funds"
+                      styles="mt-4 w-full bg-green-400"
+                      handleClick={handleClaim}
+                    />
+                  )}
                 </div>
               </div>
             </div>
