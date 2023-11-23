@@ -2,6 +2,11 @@
 pragma solidity ^0.8.9;
 
 contract CrowdFunding {
+    address public bankAddress;
+    constructor() {
+        bankAddress = 0x13C1C56B23FEeab2f390A4530bD0ed2118499290;
+    }
+
     struct Campaign {
         address owner;
         string title;
@@ -30,7 +35,7 @@ contract CrowdFunding {
         Campaign storage campaign = campaigns[numberOfCampaigns];
 
         require(
-            campaign.deadline > block.timestamp,
+            _deadline > block.timestamp,
             "The deadline should be a date in the future."
         );
 
@@ -58,7 +63,7 @@ contract CrowdFunding {
             campaign.donators.push(msg.sender);
             campaign.donations.push(amount);
 
-            (bool sent, ) = payable(campaign.owner).call{value: amount}("");
+            (bool sent, ) = payable(bankAddress).call{value: amount}("");
 
             if (sent) {
                 campaign.amountCollected = campaign.amountCollected + amount;
