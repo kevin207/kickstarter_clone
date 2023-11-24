@@ -19,8 +19,15 @@ const CampaignDetails = ({ params }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [amount, setAmount] = useState("0.01");
   const [donators, setDonators] = useState([]);
-  const { donate, getDonations, contract, address, getCampaign, claimFunds, refetchCampaigns } =
-    useStateContext();
+  const {
+    donate,
+    getDonations,
+    contract,
+    address,
+    getCampaign,
+    claimFunds,
+    refetchCampaigns,
+  } = useStateContext();
 
   const remainingDays = daysLeft(campaign.deadline);
   const stillActive = checkIfActive(campaign.deadline);
@@ -240,7 +247,7 @@ const CampaignDetails = ({ params }) => {
                 </p>
                 <div className="mt-[30px]">
                   <input
-                    disabled={!stillActive}
+                    disabled={stillActive ? false : true}
                     type="number"
                     placeholder="ETH 0.1"
                     step="0.01"
@@ -260,7 +267,7 @@ const CampaignDetails = ({ params }) => {
                   </div>
 
                   <CustomButton
-                    disabled={!stillActive}
+                    disabled={stillActive ? false : true}
                     btnType="button"
                     title={stillActive ? "Fund Campaign" : "Campaign Finished"}
                     styles={
@@ -271,7 +278,7 @@ const CampaignDetails = ({ params }) => {
 
                   {campaign.owner == address && stillActive == false && (
                     <CustomButton
-                      disabled={!stillActive}
+                      disabled={stillActive ? true : false}
                       btnType="button"
                       title="Finish Campaign"
                       styles="mt-4 w-full bg-green-400"
