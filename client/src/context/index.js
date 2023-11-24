@@ -43,7 +43,6 @@ export const StateContextProvider = ({ children }) => {
 
   const publishCampaign = async (form) => {
     const timestamp = new Date(form.deadline).getTime();
-    const truncatedTimestamp = Math.floor(timestamp / 1000);
 
     try {
       const data = await createCampaign({
@@ -53,7 +52,7 @@ export const StateContextProvider = ({ children }) => {
           form.issuer,
           form.description,
           form.target,
-          truncatedTimestamp,
+          timestamp,
           form.image,
         ],
       });
