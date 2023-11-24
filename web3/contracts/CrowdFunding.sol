@@ -29,10 +29,10 @@ contract CrowdFunding {
     ) public returns (uint256) {
         Campaign storage campaign = campaigns[numberOfCampaigns];
 
-        require(
-            _deadline > block.timestamp,
-            "The deadline should be a date in the future."
-        );
+        // require(
+        //     _deadline > block.timestamp,
+        //     "The deadline should be a date in the future."
+        // );
 
         campaign.owner = _owner;
         campaign.title = _title;
@@ -53,13 +53,17 @@ contract CrowdFunding {
         uint256 amount = msg.value;
         Campaign storage campaign = campaigns[_id];
 
-        // CAN ONLY DONATE WHEN DEADLINE IS NOT MET
-        if (block.timestamp < campaign.deadline) {
-            campaign.donators.push(msg.sender);
-            campaign.donations.push(amount);
+        campaign.donators.push(msg.sender);
+        campaign.donations.push(amount);
+        campaign.amountCollected += amount;
 
-            campaign.amountCollected += amount;
-        }
+        // CAN ONLY DONATE WHEN DEADLINE IS NOT MET
+        // if (block.timestamp < campaign.deadline) {
+        //     campaign.donators.push(msg.sender);
+        //     campaign.donations.push(amount);
+
+        //     campaign.amountCollected += amount;
+        // }
     }
 
     function getDonators(
@@ -89,11 +93,11 @@ contract CrowdFunding {
             "Only the campaign owner can finalize the campaign."
         );
 
-        // Check if the deadline has passed
-        require(
-            block.timestamp >= campaign.deadline,
-            "Campaign is still ongoing."
-        );
+        // // Check if the deadline has passed
+        // require(
+        //     block.timestamp >= campaign.deadline,
+        //     "Campaign is still ongoing."
+        // );
 
         // Check if the campaign already claimed
         require(campaign.claimed == false, "Campaign already claimed");
