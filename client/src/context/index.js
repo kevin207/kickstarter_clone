@@ -126,9 +126,7 @@ export const StateContextProvider = ({ children }) => {
   };
 
   const claimFunds = async (pId) => {
-    console.log(ethers.utils.parseEther("0.0005"))
     const data = await contract.call("finalizeCampaign", [pId]);
-
     return data;
   };
 
