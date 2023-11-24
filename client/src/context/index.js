@@ -42,15 +42,18 @@ export const StateContextProvider = ({ children }) => {
   };
 
   const publishCampaign = async (form) => {
+    const timestamp = new Date(form.deadline).getTime();
+    const truncatedTimestamp = Math.floor(timestamp / 1000);
+
     try {
       const data = await createCampaign({
         args: [
-          address, 
+          address,
           form.title,
-          form.issuer, 
+          form.issuer,
           form.description,
           form.target,
-          new Date(form.deadline).getTime().split(' ').slice(0, -3).join(' '), 
+          truncatedTimestamp,
           form.image,
         ],
       });
@@ -132,8 +135,12 @@ export const StateContextProvider = ({ children }) => {
 
   const refetchCampaigns = async () => {
     const data = await getCampaigns();
-    const activeCampaigns = data.filter((campaign) => campaign.deadline > Date.now());
-    const passedCampaigns = data.filter((campaign) => campaign.deadline < Date.now());
+    const activeCampaigns = data.filter(
+      (campaign) => campaign.deadline > Date.now()
+    );
+    const passedCampaigns = data.filter(
+      (campaign) => campaign.deadline < Date.now()
+    );
 
     setActiveCampaigns(activeCampaigns);
     setPassedCampaigns(passedCampaigns);
@@ -160,15 +167,19 @@ export const StateContextProvider = ({ children }) => {
     getDonations,
     claimFunds,
     refetchCampaigns,
-  }
+  };
 
   // Get all campaigns
   useEffect(() => {
     const fetchCampaigns = async () => {
       setIsLoading(true);
       const data = await getCampaigns();
-      const activeCampaigns = data.filter((campaign) => campaign.deadline > Date.now());
-      const passedCampaigns = data.filter((campaign) => campaign.deadline < Date.now());
+      const activeCampaigns = data.filter(
+        (campaign) => campaign.deadline > Date.now()
+      );
+      const passedCampaigns = data.filter(
+        (campaign) => campaign.deadline < Date.now()
+      );
 
       setActiveCampaigns(activeCampaigns);
       setPassedCampaigns(passedCampaigns);
@@ -179,11 +190,7 @@ export const StateContextProvider = ({ children }) => {
   }, [address, contract]);
 
   return (
-    <StateContext.Provider
-      value={states}
-    >
-      {children}
-    </StateContext.Provider>
+    <StateContext.Provider value={states}>{children}</StateContext.Provider>
   );
 };
 
