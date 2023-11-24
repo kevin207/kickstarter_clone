@@ -18,6 +18,11 @@ contract CrowdFunding {
     mapping(uint256 => Campaign) public campaigns;
     uint256 public numberOfCampaigns = 0;
 
+    function isPassed(uint256 date) private view returns (bool) {
+        uint256 converted = date / 1000;
+        return converted < block.timestamp;
+    }
+
     function createCampaign(
         address _owner,
         string memory _title,
@@ -29,10 +34,10 @@ contract CrowdFunding {
     ) public returns (uint256) {
         Campaign storage campaign = campaigns[numberOfCampaigns];
 
-        // require(
-        //     _deadline > block.timestamp,
-        //     "The deadline should be a date in the future."
-        // );
+        require(
+            !isPassed(_deadline),
+            "The deadline should be a date in the future."
+        );
 
         campaign.owner = _owner;
         campaign.title = _title;
@@ -93,11 +98,8 @@ contract CrowdFunding {
             "Only the campaign owner can finalize the campaign."
         );
 
-        // // Check if the deadline has passed
-        // require(
-        //     block.timestamp >= campaign.deadline,
-        //     "Campaign is still ongoing."
-        // );
+        // Check if the deadline has passed
+        require(isPassed(campaign.deadline), "Campaign is still ongoing.");
 
         // Check if the campaign already claimed
         require(campaign.claimed == false, "Campaign already claimed");

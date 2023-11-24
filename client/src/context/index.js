@@ -21,7 +21,7 @@ export const StateContextProvider = ({ children }) => {
   const disconnect = useDisconnect();
 
   const { contract } = useContract(
-    "0x8Ac12A39B1C1FB48097966dA29c9825065759351"
+    "0x9cdFE824ED95Bb0CAeEA73A14b93A0cE20c29d7C"
   );
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
